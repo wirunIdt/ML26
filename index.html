@@ -31,6 +31,7 @@
             z-index: 1000;
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .nav-btn {
@@ -48,6 +49,37 @@
         .nav-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Public Pages Styles */
+        .public-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .public-header {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .public-header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .public-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .header-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
         }
 
         /* Login Page Styles */
@@ -77,77 +109,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .login-header h1 {
-            color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .login-header p {
-            color: #666;
-            font-size: 1.1em;
-        }
-
-        .login-icon {
-            font-size: 4em;
-            margin-bottom: 20px;
-        }
-
-        /* Public Page Styles */
-        .public-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .public-header {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .public-header h1 {
-            color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .public-header p {
-            color: #666;
-            font-size: 1.1em;
-        }
-
-        .search-panel {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
-        }
-
-        .search-panel h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-        }
-
-        .search-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .search-form-full {
-            grid-column: 1 / -1;
         }
 
         /* Admin Dashboard Styles */
@@ -210,17 +171,12 @@
             font-size: 0.9em;
         }
 
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
         .panel {
             background: white;
             padding: 30px;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
         }
 
         .panel h2 {
@@ -290,6 +246,16 @@
 
         .btn-logout:hover {
             background: #c82333;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .search-form-full {
+            grid-column: 1 / -1;
         }
 
         .task-list {
@@ -497,20 +463,17 @@
             border: 1px solid #f5c2c7;
         }
 
-        .info-message {
-            background: #cfe2ff;
-            color: #084298;
+        .success-message {
+            background: #d1e7dd;
+            color: #0f5132;
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 20px;
-            border: 1px solid #b6d4fe;
+            border: 1px solid #badbcc;
+            text-align: center;
         }
 
         @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-
             .dashboard {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -533,6 +496,7 @@
                 position: static;
                 justify-content: center;
                 margin-bottom: 20px;
+                flex-direction: column;
             }
         }
     </style>
@@ -540,19 +504,76 @@
 <body>
     <!-- Navigation Buttons -->
     <div class="nav-buttons" id="navButtons">
-        <button class="nav-btn" onclick="goToPublic()">🔍 ตรวจสอบออเดอร์</button>
-        <button class="nav-btn" onclick="goToAdmin()">🔐 Admin Login</button>
+        <button class="nav-btn" onclick="goToOrderForm()">📝 สั่งงาน</button>
+        <button class="nav-btn" onclick="goToTracking()">🔍 ตรวจสอบออเดอร์</button>
+        <button class="nav-btn" onclick="goToAdmin()">🔐 Admin</button>
+    </div>
+
+    <!-- Public Order Form Page -->
+    <div id="orderFormPage" class="public-container hidden">
+        <div class="public-header">
+            <div class="header-icon">📝</div>
+            <h1>สั่งงาน</h1>
+            <p>กรอกข้อมูลเพื่อสั่งงานใหม่</p>
+        </div>
+
+        <div class="panel">
+            <h2>➕ สร้างออเดอร์ใหม่</h2>
+            <div id="orderSuccessMessage" class="success-message hidden"></div>
+            <form id="publicOrderForm">
+                <div class="form-group">
+                    <label>ชื่อของคุณ *</label>
+                    <input type="text" id="publicCustomerName" required placeholder="ระบุชื่อของคุณ">
+                </div>
+
+                <div class="form-group">
+                    <label>เบอร์โทร *</label>
+                    <input type="tel" id="publicCustomerPhone" required placeholder="0xx-xxx-xxxx">
+                </div>
+
+                <div class="form-group">
+                    <label>อีเมล</label>
+                    <input type="email" id="publicCustomerEmail" placeholder="email@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label>ชื่องาน *</label>
+                    <input type="text" id="publicTaskTitle" required placeholder="ระบุชื่องาน">
+                </div>
+
+                <div class="form-group">
+                    <label>รายละเอียดงาน *</label>
+                    <textarea id="publicTaskDescription" required placeholder="อธิบายรายละเอียดงานที่ต้องการ..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>ความเร่งด่วน</label>
+                    <select id="publicTaskPriority">
+                        <option value="low">ไม่เร่งด่วน</option>
+                        <option value="medium" selected>ปานกลาง</option>
+                        <option value="high">เร่งด่วน</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>ต้องการให้จัดส่งวันที่ (ถ้ามี)</label>
+                    <input type="date" id="publicTaskDeadline">
+                </div>
+
+                <button type="submit" class="btn btn-primary">ส่งคำสั่งงาน</button>
+            </form>
+        </div>
     </div>
 
     <!-- Public Order Tracking Page -->
-    <div id="publicPage" class="public-container hidden">
+    <div id="trackingPage" class="public-container hidden">
         <div class="public-header">
-            <div class="login-icon">📦</div>
+            <div class="header-icon">🔍</div>
             <h1>ตรวจสอบสถานะออเดอร์</h1>
             <p>ค้นหาออเดอร์ของคุณด้วยชื่อและวันที่จัดส่ง</p>
         </div>
 
-        <div class="search-panel">
+        <div class="panel">
             <h2>🔍 ค้นหาออเดอร์</h2>
             <div class="search-form">
                 <div class="form-group">
@@ -578,8 +599,8 @@
     <!-- Admin Login Page -->
     <div id="loginPage" class="login-container hidden">
         <div class="login-box">
-            <div class="login-header">
-                <div class="login-icon">🔐</div>
+            <div class="public-header" style="margin: 0;">
+                <div class="header-icon">🔐</div>
                 <h1>Admin Login</h1>
                 <p>ระบบจัดการงานลูกค้า</p>
             </div>
@@ -600,6 +621,7 @@
                 <button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button>
             </form>
 
+         
         </div>
     </div>
 
@@ -608,7 +630,7 @@
         <div class="header">
             <div class="header-left">
                 <h1>📋 ระบบจัดการงานลูกค้า</h1>
-                <p>Customer Task Management System</p>
+                <p>Admin Dashboard</p>
             </div>
             <div class="header-right">
                 <div class="admin-info">👤 <span id="adminName"></span></div>
@@ -635,65 +657,17 @@
             </div>
         </div>
 
-        <div class="main-content">
-            <div class="panel">
-                <h2>➕ เพิ่มงานใหม่</h2>
-                <form id="taskForm">
-                    <div class="form-group">
-                        <label>ชื่อลูกค้า *</label>
-                        <input type="text" id="customerName" required placeholder="ระบุชื่อลูกค้า">
-                    </div>
-
-                    <div class="form-group">
-                        <label>เบอร์โทร *</label>
-                        <input type="tel" id="customerPhone" required placeholder="0xx-xxx-xxxx">
-                    </div>
-
-                    <div class="form-group">
-                        <label>อีเมล</label>
-                        <input type="email" id="customerEmail" placeholder="email@example.com">
-                    </div>
-
-                    <div class="form-group">
-                        <label>ชื่องาน *</label>
-                        <input type="text" id="taskTitle" required placeholder="ระบุชื่องาน">
-                    </div>
-
-                    <div class="form-group">
-                        <label>รายละเอียดงาน *</label>
-                        <textarea id="taskDescription" required placeholder="อธิบายรายละเอียดงาน..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>ความสำคัญ</label>
-                        <select id="taskPriority">
-                            <option value="low">ต่ำ</option>
-                            <option value="medium" selected>ปานกลาง</option>
-                            <option value="high">สูง</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>วันที่จัดส่ง</label>
-                        <input type="date" id="taskDeadline">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">เพิ่มงาน</button>
-                </form>
+        <div class="panel">
+            <h2>📝 รายการงานทั้งหมด</h2>
+            
+            <div class="tabs">
+                <button class="tab active" data-filter="all">ทั้งหมด</button>
+                <button class="tab" data-filter="pending">รอดำเนินการ</button>
+                <button class="tab" data-filter="inprogress">กำลังทำ</button>
+                <button class="tab" data-filter="completed">เสร็จสิ้น</button>
             </div>
 
-            <div class="panel">
-                <h2>📝 รายการงาน</h2>
-                
-                <div class="tabs">
-                    <button class="tab active" data-filter="all">ทั้งหมด</button>
-                    <button class="tab" data-filter="pending">รอดำเนินการ</button>
-                    <button class="tab" data-filter="inprogress">กำลังทำ</button>
-                    <button class="tab" data-filter="completed">เสร็จสิ้น</button>
-                </div>
-
-                <div class="task-list" id="taskList"></div>
-            </div>
+            <div class="task-list" id="taskList"></div>
         </div>
     </div>
 
@@ -707,14 +681,20 @@
         let tasks = [];
         let currentFilter = 'all';
         let currentAdmin = null;
-        let currentPage = 'public'; // 'public', 'login', 'admin'
+        let currentPage = 'orderForm';
 
         const storageAvailable = typeof window.storage !== 'undefined';
 
         // Page Navigation
-        function goToPublic() {
-            currentPage = 'public';
-            showPage('publicPage');
+        function goToOrderForm() {
+            currentPage = 'orderForm';
+            showPage('orderFormPage');
+        }
+
+        function goToTracking() {
+            currentPage = 'tracking';
+            showPage('trackingPage');
+            loadTasks();
         }
 
         function goToAdmin() {
@@ -723,6 +703,7 @@
                 currentAdmin = savedAdmin;
                 currentPage = 'admin';
                 showPage('adminPage');
+                document.getElementById('adminName').textContent = currentAdmin;
                 loadTasks();
             } else {
                 currentPage = 'login';
@@ -731,18 +712,59 @@
         }
 
         function showPage(pageId) {
-            document.getElementById('publicPage').classList.add('hidden');
+            document.getElementById('orderFormPage').classList.add('hidden');
+            document.getElementById('trackingPage').classList.add('hidden');
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('adminPage').classList.add('hidden');
             document.getElementById(pageId).classList.remove('hidden');
             
-            // Hide nav buttons on admin page
             if (pageId === 'adminPage') {
                 document.getElementById('navButtons').classList.add('hidden');
             } else {
                 document.getElementById('navButtons').classList.remove('hidden');
             }
         }
+
+        // Public Order Form Submit
+        document.getElementById('publicOrderForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const newTask = {
+                id: Date.now().toString(),
+                customer: {
+                    name: document.getElementById('publicCustomerName').value.trim(),
+                    phone: document.getElementById('publicCustomerPhone').value.trim(),
+                    email: document.getElementById('publicCustomerEmail').value.trim()
+                },
+                title: document.getElementById('publicTaskTitle').value.trim(),
+                description: document.getElementById('publicTaskDescription').value.trim(),
+                priority: document.getElementById('publicTaskPriority').value,
+                deadline: document.getElementById('publicTaskDeadline').value,
+                status: 'pending',
+                createdBy: 'ลูกค้า',
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+
+            await loadTasks();
+            tasks.unshift(newTask);
+            await saveTasks();
+            
+            // Show success message
+            const successMsg = document.getElementById('orderSuccessMessage');
+            successMsg.textContent = '✅ ส่งคำสั่งงานเรียบร้อยแล้ว! เราจะติดต่อกลับโดยเร็วที่สุด';
+            successMsg.classList.remove('hidden');
+            
+            this.reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMsg.classList.add('hidden');
+            }, 5000);
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
         // Search Orders (Public)
         async function searchOrders() {
@@ -852,7 +874,7 @@
                 currentAdmin = null;
                 document.getElementById('username').value = '';
                 document.getElementById('password').value = '';
-                goToPublic();
+                goToOrderForm();
             }
         }
 
@@ -910,37 +932,7 @@
             }
         }
 
-        // Add new task
-        document.getElementById('taskForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const newTask = {
-                id: Date.now().toString(),
-                customer: {
-                    name: document.getElementById('customerName').value.trim(),
-                    phone: document.getElementById('customerPhone').value.trim(),
-                    email: document.getElementById('customerEmail').value.trim()
-                },
-                title: document.getElementById('taskTitle').value.trim(),
-                description: document.getElementById('taskDescription').value.trim(),
-                priority: document.getElementById('taskPriority').value,
-                deadline: document.getElementById('taskDeadline').value,
-                status: 'pending',
-                createdBy: currentAdmin,
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            };
-
-            tasks.unshift(newTask);
-            await saveTasks();
-            renderTasks();
-            updateStats();
-            this.reset();
-            
-            alert('✅ เพิ่มงานเรียบร้อยแล้ว');
-        });
-
-        // Change task status
+        // Change task status (Admin only)
         async function changeStatus(id) {
             const task = tasks.find(t => t.id === id);
             if (!task) return;
@@ -958,7 +950,7 @@
             updateStats();
         }
 
-        // Delete task
+        // Delete task (Admin only)
         async function deleteTask(id) {
             if (confirm('ต้องการลบงานนี้ใช่หรือไม่?')) {
                 tasks = tasks.filter(t => t.id !== id);
@@ -982,9 +974,9 @@
         // Get priority text
         function getPriorityText(priority) {
             const priorityMap = {
-                'low': 'ต่ำ',
+                'low': 'ไม่เร่งด่วน',
                 'medium': 'ปานกลาง',
-                'high': 'สูง'
+                'high': 'เร่งด่วน'
             };
             return priorityMap[priority] || priority;
         }
@@ -1012,7 +1004,7 @@
             });
         }
 
-        // Render tasks
+        // Render tasks (Admin only)
         function renderTasks() {
             const taskList = document.getElementById('taskList');
             
@@ -1098,7 +1090,7 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            goToPublic();
+            goToOrderForm();
         });
     </script>
 </body>
