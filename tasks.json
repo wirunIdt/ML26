@@ -1,5 +1,56 @@
 [
   {
+    "id": "1770628726418",
+    "customer": {
+      "name": "เเจม",
+      "phone": "0625313944",
+      "email": "characha1569@gmail.com"
+    },
+    "title": "เครื่องเก็บผ้า",
+    "description": "ใช้ตัวคล้ายๆมอเตอร์​เซอโวพับเก็บผ้าโดยตรวจจับน้ำฝน",
+    "priority": "high",
+    "deadline": "2026-02-12",
+    "status": "completed",
+    "createdBy": "ลูกค้า",
+    "createdAt": "2026-02-09T16:18:46.419770",
+    "updatedAt": "2026-02-09T20:34:07.351575",
+    "updatedBy": "Jaochai"
+  },
+  {
+    "id": "1770600825460",
+    "customer": {
+      "name": "เวีย m4/3 39",
+      "phone": "0941577376",
+      "email": "via0644520910@gmail.com"
+    },
+    "title": "เล่มโคตรงงาน",
+    "description": "กูไม่รู้ฃ\r\n",
+    "priority": "high",
+    "deadline": "",
+    "status": "inprogress",
+    "createdBy": "ลูกค้า",
+    "createdAt": "2026-02-09T08:33:45.461095",
+    "updatedAt": "2026-02-09T16:28:14.707142",
+    "updatedBy": "Jaochai"
+  },
+  {
+    "id": "1770592591723",
+    "customer": {
+      "name": "เมฆ",
+      "phone": "0961015689",
+      "email": "natparin.mak@gmail.com"
+    },
+    "title": "หลังคาอัตโนมัติ",
+    "description": "สร้างแบบจำลองตึกและทำเป็นหลังคามีเซ็นเซอร์วัดความชื้น",
+    "priority": "medium",
+    "deadline": "",
+    "status": "inprogress",
+    "createdBy": "ลูกค้า",
+    "createdAt": "2026-02-09T06:16:31.724863",
+    "updatedAt": "2026-02-09T07:55:22.299741",
+    "updatedBy": "Jaochai"
+  },
+  {
     "id": "1770470691970",
     "customer": {
       "name": "อาร์ม",
